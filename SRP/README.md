@@ -1,13 +1,14 @@
-# SRP Refactoring
+# SrpLab — SRP Refactoring
 
-This folder contains the Task 1 solution for the OOP Assignment 2.
+The original repository contains 10 intentionally tricky Single Responsibility Principle violations.
 
-The original lab has ten classes that mix multiple responsibilities. The refactoring separates state, business rules, formatting, export, messaging, and integration concerns into cohesive classes.
+This version refactors the classes by separating independent reasons to change:
 
-Run:
+- domain/state management
+- business rules and calculations
+- formatting/export
+- messaging/integration side effects
 
-```bash
-dotnet run --project src/SrpLab.Runner
-```
+No interfaces are required.
 
-No custom interfaces are used, matching the assignment requirement.
+The runner keeps the same meaningful scenarios as the original project.
