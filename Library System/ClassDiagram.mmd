@@ -1,0 +1,121 @@
+classDiagram
+
+class Person {
+    +string PersonId
+    +string FullName
+    +string Phone
+    #Person(string, string, string)
+}
+
+class Member {
+    -int maxLoans
+    -decimal discountPercentage
+    -List~Loan~ loans
+    +IReadOnlyList~Loan~ Loans
+    #Member(string, string, string, int, decimal)
+    +void Borrow(Loan)
+    +decimal GetDiscountAmount(decimal)
+}
+
+class StudentMember {
+    +StudentMember(string, string, string)
+}
+
+class PremiumMember {
+    +int ReadingPoints
+    +PremiumMember(string, string, string, decimal)
+}
+
+class Staff {
+    +DateTime HireDate
+    +decimal MonthlySalary
+    #decimal ResponsibilityAllowance
+    #Staff(string, string, string, DateTime, decimal, decimal)
+    +void GiveRaise(decimal)
+    +decimal GetMonthlyPay()
+}
+
+class Librarian {
+    +Librarian(string, string, string, DateTime, decimal)
+    +void ProcessReturn(Loan, DateTime)
+    +void MarkItemAsLost(Loan)
+}
+
+class Shelver {
+    +string Section
+    +Shelver(string, string, string, DateTime, decimal, string)
+    +void Reassign(string)
+}
+
+class HeadLibrarian {
+    +HeadLibrarian(string, string, string, DateTime, decimal)
+    +void ChangeLateFee(LibraryItem, decimal)
+    +void WithdrawItem(LibraryItem)
+    +void RestoreItem(LibraryItem)
+}
+
+class LibraryItem {
+    +string CatalogNumber
+    +string Title
+    +decimal BaseLateFee
+    +bool IsWithdrawn
+    +bool IsOnLoan
+    +int LoanPeriod
+    +decimal DailyLateFee
+    #LibraryItem(string, string, decimal, int, decimal)
+    +void SetLateFee(decimal)
+    +void Withdraw()
+    +void Restore()
+}
+
+class Book {
+    +Book(string, string, decimal)
+}
+
+class DVD {
+    +DVD(string, string, decimal)
+}
+
+class Magazine {
+    +Magazine(string, string, decimal)
+}
+
+class Loan {
+    +int LoanId
+    +DateTime BorrowDate
+    +Member Member
+    +LibraryItem Item
+    +LoanStatus Status
+    +DateTime ReturnDate
+    +DateTime DueDate
+    +decimal LateFee
+    +Loan(int, DateTime, Member, LibraryItem)
+    +void Return(DateTime)
+    +void MarkAsLost()
+}
+
+class LoanStatus {
+    <<enumeration>>
+    Borrowed
+    Returned
+    Lost
+}
+
+Person <|-- Member
+Person <|-- Staff
+
+Member <|-- StudentMember
+Member <|-- PremiumMember
+
+Staff <|-- Librarian
+Staff <|-- Shelver
+Staff <|-- HeadLibrarian
+
+LibraryItem <|-- Book
+LibraryItem <|-- DVD
+LibraryItem <|-- Magazine
+
+Member "1" --> "0..*" Loan
+Loan "*" --> "1" Member
+Loan "*" --> "1" LibraryItem
+Loan --> LoanStatus
